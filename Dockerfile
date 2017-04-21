@@ -31,7 +31,7 @@ RUN yum install -y wget unzip \
     && cp -R /tmp/xhgui-master/* /var/www/xhgui/ \
     && wget -O /tmp/composer.phar https://getcomposer.org/composer.phar \
     && cd /var/www/xhgui  \
-    && chown -R apache:apache . \
+    && chown -R apache:apache * \
     && php /tmp/composer.phar install --no-dev  \
     && chmod a+w cache storage \
     && yum erase -y wget unzip \
