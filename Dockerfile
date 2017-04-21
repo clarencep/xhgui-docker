@@ -12,17 +12,30 @@ RUN mkdir -p /etc/httpd/vhosts \
     && pecl install mongodb \
     && echo 'extension=mongodb.so' > /etc/php.d/mongodb.ini \
     # install PHP extension tideways: \
-    && mkdir -p /usr/src/php-profiler-extension \
-    && wget -O /usr/src/php-profiler-extension.tar.gz https://github.com/tideways/php-profiler-extension/archive/v4.1.2.tar.gz \
-    && tar -xzf /usr/src/php-profiler-extension.tar.gz -C /usr/src/php-profiler-extension --strip-components=1 \
-    && cd /usr/src/php-profiler-extension && phpize  \
-    && ./configure && make && make install \
-    && echo 'extension=tideways.so' > /etc/php.d/tideways.ini \
-    && echo 'tideways.auto_prepend_library=0' >> /etc/php.d/tideways.ini \
+    # && mkdir -p /usr/src/php-profiler-extension \
+    # && wget -O /tmp/php-profiler-extension.tar.gz https://github.com/tideways/php-profiler-extension/archive/v4.1.2.tar.gz \
+    # && tar -xzf /tmp/php-profiler-extension.tar.gz -C /usr/src/php-profiler-extension --strip-components=1 \
+    # && cd /usr/src/php-profiler-extension \
+    # && phpize  \
+    # && ./configure && make && make install \
+    # && echo 'extension=tideways.so' > /etc/php.d/tideways.ini \
+    # && echo 'tideways.auto_prepend_library=0' >> /etc/php.d/tideways.ini \
     # cleanup: \
     && yum erase -y zip php71w-pear php71w-devel openssl-devel gcc make wget \
     && find /var/log -type f -print0 | xargs -0 rm -rf /root/docker /tmp/* \
-    && mkdir -p /var/log/httpd \
+    && yum clean all
+
+RUN yum install -y wget unzip \
+    && wget -O /tmp/xhgui.zip https://github.com/clarencep/xhgui/archive/master.zip \
+    && unzip /tmp/xhgui.zip -d /tmp \
+    && cp -R /tmp/xhgui-master/* /var/www/xhgui/ \
+    && wget -O /tmp/composer.phar https://getcomposer.org/composer.phar \
+    && cd /var/www/xhgui  \
+    && chown -R apache:apache . \
+    && php /tmp/composer.phar install --no-dev  \
+    && chmod a+w cache storage \
+    && yum erase -y wget unzip \
+    && find /var/log -type f -print0 | xargs -0 rm -rf /root/docker /tmp/* \
     && yum clean all
 
 EXPOSE 80 27017
