@@ -1,7 +1,5 @@
 FROM clarencep/lap7:centos7
 
-VOLUME [ "/data/mongodb" ]
-
 COPY . /root/docker
 
 RUN mkdir -p /etc/httpd/vhosts \
