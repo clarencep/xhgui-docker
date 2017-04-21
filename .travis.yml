@@ -1,0 +1,23 @@
+branches:
+  only:
+    - master
+
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+before_script:
+  - python --version
+  - docker version
+  - docker ps -a
+  - docker build -t test .
+  - docker images
+  - docker ps -a
+
+script:
+  - docker run -d -p 8880 -P --rm test
+  - python -c "import time; time.sleep(5);"
+  - curl -v http://localhost:8880/
