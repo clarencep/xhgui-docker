@@ -8,7 +8,7 @@ RUN mkdir -p /etc/httpd/vhosts \
     && cp -f /root/docker/httpd/0_default.conf  /etc/httpd/vhosts/ \
     && yum install -y zip php71w-pear php71w-devel gcc make wget \
     && yum install -y supervisor \
-    && cp -r /root/docker/supervisord/* /etc/supervisor.d/ \
+    && cp -r /root/docker/supervisord/* /etc/supervisord.d/ \
     && yum install -y mongodb-server openssl-devel \
     && pecl install mongodb \
     && echo 'extension=mongodb.so' > /etc/php.d/mongodb.ini \
