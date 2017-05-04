@@ -12,6 +12,8 @@ RUN mkdir -p /etc/httpd/vhosts \
     && yum install -y mongodb-server openssl-devel \
     && pecl install mongodb \
     && echo 'extension=mongodb.so' > /etc/php.d/mongodb.ini \
+    && pecl install mongo \
+    && echo 'extension=mongo.so' > /etc/php.d/mongo.ini \
     && mkdir -p /var/www/xhgui \
     && mkdir -p /data/mongodb \
     && wget -O /tmp/xhgui.zip https://github.com/clarencep/xhgui/archive/master.zip \
