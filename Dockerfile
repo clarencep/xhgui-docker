@@ -24,7 +24,7 @@ RUN mkdir -p /etc/httpd/vhosts \
     && php /tmp/composer.phar require --update-no-dev alcaeus/mongo-php-adapter:1.0  \
     && chmod a+w cache storage \
     && yum erase -y zip unzip php71w-pear php71w-devel gcc make wget \
-    && find /var/log -type f -print0 | xargs -0 rm -rf /root/docker /tmp/* \
+    && find /var/log -type f -print0 | xargs -0 rm -rf /root/docker /root/.composer /tmp/* \
     && yum clean all
 
 EXPOSE 80 27017
