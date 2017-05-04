@@ -12,8 +12,6 @@ RUN mkdir -p /etc/httpd/vhosts \
     && yum install -y mongodb-server openssl-devel \
     && pecl install mongodb \
     && echo 'extension=mongodb.so' > /etc/php.d/mongodb.ini \
-    && pecl install mongo \
-    && echo 'extension=mongo.so' > /etc/php.d/mongo.ini \
     && mkdir -p /var/www/xhgui \
     && mkdir -p /data/mongodb \
     && wget -O /tmp/xhgui.zip https://github.com/clarencep/xhgui/archive/master.zip \
@@ -23,6 +21,7 @@ RUN mkdir -p /etc/httpd/vhosts \
     && cd /var/www/xhgui  \
     && chown -R apache:apache * \
     && php /tmp/composer.phar install --no-dev  \
+    && php /tmp/composer.phar require alcaeus/mongo-php-adapter:1.0  \
     && chmod a+w cache storage \
     && yum erase -y zip unzip php71w-pear php71w-devel gcc make wget \
     && find /var/log -type f -print0 | xargs -0 rm -rf /root/docker /tmp/* \
